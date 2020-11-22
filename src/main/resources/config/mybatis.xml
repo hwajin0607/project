@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
+
+	<bean name="datasource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="net.sf.log4jdbc.DriverSpy"/>
+		<property name="url" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="C##web_user"/>
+		<property name="password" value="pass"/>
+	</bean>
+	
+	<!-- datasource를 이용해서 DB접속 및 사용 설정 -->
+	<!-- name은 정해져있음, id는 내 마음대로 정할 수 있음. -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="datasource"/><!-- datasource가져오기 -->
+		<property name="mapperLocations" value="classpath:kr/co/goodee/dao/*.xml"/><!-- 쿼리문이 있는 장소 저장 -->
+		<property name="environment" value="classpath:/config/pool-config.xml"/>
+	</bean>
+	
+	<!-- 마이바티스를 별다른 코드 없이 사용할 수 있도록 해주는 설정 -->
+	<mybatis-spring:scan base-package="kr.co.goodee.dao"/>
+	
+</beans>

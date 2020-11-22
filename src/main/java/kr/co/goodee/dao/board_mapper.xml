@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+   "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.goodee.dao.BoardDAO">
+	
+	<select id="list" resultType="kr.co.goodee.dto.BoardDTO">
+		SELECT * FROM bbs ORDER BY idx DESC
+	</select>
+	
+	<select id="detail" resultType="kr.co.goodee.dto.BoardDTO">
+		SELECT * FROM bbs where idx=#{idx}
+	</select>
+	
+	<insert id="write" parameterType="hashMap">
+		INSERT INTO bbs(idx,user_name,subject,content,bHit) VALUES
+		 (bbs_seq.NEXTVAL,#{user_name},#{subject},#{content},0)
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM bbs WHERE idx=#{idx}
+	</delete>
+	
+	<update id="bhit">
+		UPDATE bbs SET bhit=bhit+1 WHERE idx=#{idx}
+	</update>
+	
+	<update id="update" parameterType="Hashmap">
+		UPDATE bbs SET subject=#{subject},content=#{content} WHERE idx=#{idx}
+	</update>
+
+</mapper>
